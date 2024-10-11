@@ -5,7 +5,7 @@ import AdminDash from './pages/AdminDash';
 const App = () => {
   const [username, setUser] = useState('');
   const [password, setPass] = useState('');
-  const [login, setLogIn] = useState(false);
+  const [login, setLogIn] = useState(true);//false
   const [message, setMessage] = useState('');
 
   const handleSubmit = async (e) => {
@@ -32,7 +32,7 @@ const App = () => {
         <div className='p-16 bg-slate-300 m-auto w-full h-screen grid justify-center '>
           <h1 className='text-3xl font-semibold pb-4'>Hostal Management </h1>
 
-          <form onSubmit={handleSubmit} className='grid gap-4 p-8 border-2 justify-center py-20'>
+          <form onSubmit={handleSubmit} className='grid gap-4 px-16 border-2 justify-center py-20'>
             <input
               type="text"
               value={username}

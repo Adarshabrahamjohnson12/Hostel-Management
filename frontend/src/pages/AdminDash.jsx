@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 // const [login,setLogIn] = useState(true);
 
-const AdminDash = ({login}) => {
+const AdminDash = ({ login }) => {
   const date = new Date();
   const showTime = date.getHours()
     + ':' + date.getMinutes();
@@ -9,11 +9,11 @@ const AdminDash = ({login}) => {
 
 
   const MenuDetails = {
-    1: { id: 'Home' },
-    2: { id: 'Register students' },
-    3: { id: 'Attendence' },
-    4: { id: 'Mes' },
-    5: { id: 'Invoice' },
+    1: { id: 'Home', },
+    2: { id: 'Register students', },
+    3: { id: 'Attendence', },
+    4: { id: 'Mes', },
+    5: { id: 'Invoice', },
 
   }
 
@@ -31,13 +31,14 @@ const AdminDash = ({login}) => {
       <div className='bg-[#CD5C08] text-[#FFF5E4] w-[18%] h-screen pt-8 p-4'>
         <h1 className='font-semibold text-xl'>Admin Dashboard</h1>
 
-        <ul className='bg-black '>
-          {Object.values(MenuDetails).map((Menuprop) => {
-            <li key={Menuprop.id}>
-              <a href="\">{Menuprop.id}rrr</a>
+        <ul className='grid mt-20 gap-3'>
+          {Object.values(MenuDetails).map((Menuprop) => (
+            <li key={Menuprop.id} className='p-2 text-[black] font-medium rounded bg-[#C1D8C3]'>
+              <a href="/">{Menuprop.id}</a>
             </li>
-          })}
+          ))}
         </ul>
+
 
 
 
@@ -48,8 +49,8 @@ const AdminDash = ({login}) => {
           <p>{showTime}</p>
           <h2>{data.name}</h2>
           <span className='flex gap-3'>
-          <img src={data.image} className='rounded-full bg-orange-500 h-6' alt="" />
-          <a href="/">logout</a>
+            <img src={data.image} className='rounded-full bg-orange-500 h-6' alt="" />
+            <a href="/">logout</a>
           </span>
         </div>
 
