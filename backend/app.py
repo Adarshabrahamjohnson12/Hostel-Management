@@ -8,6 +8,8 @@ import string
 app = Flask(__name__)
 CORS(app)
 
+print("Server starting ")
+
 # data base connection
 db_config = {
     'host':'localhost',
