@@ -15,7 +15,7 @@ db_config = {
     'host':'localhost',
     'user':'root',
     'password' :'',
-    'database':'lunar'
+    'database':'hostal_management'
 }
 
 def get_db_coneection():
@@ -34,6 +34,65 @@ def root():
         "statusDesc" : "Success"
     })
 
+@app.route("/list",methods=['GET'])
+def  list():
+    try:
+        db_connection = get_db_coneection()
+        cursor = db_connection.cursor()
+        cursor.execute('select full_name FROM user_data ')
+        listData = cursor.fetchall()
+        db_connection.close()
+        
+        return jsonify(listData),200
+    
+        # else:
+        #     return jsonify({
+	    #     "statusDesc": "Failure",
+        #     "statusCode": {
+        # 	"code": "F005"
+        #  	},
+	    #     "message": "Some mandatory fields need to be filled"
+                        
+        # }),400
+    except Exception as e:
+        return jsonify({"error": str(e)}),500
+
+@app.route("/login", methods=['POST'])
+def login():
+    try:
+        data = request.json
+        username = data.get('username')
+        password = data.get('password')
+        
+        db_connection = get_db_coneection()
+        cursor = db_connection.cursor()
+        
+        # Corrected SQL query to use proper parameterized input
+        cursor.execute('SELECT count(*) FROM user_data WHERE e_mail = %s and password = %s;', (username,password))
+        row = cursor.fetchone()
+        
+        db_connection.close()
+        
+        if row[0] > 0 :
+            # Here you might want to check password as well
+            return jsonify({
+                "statusDesc": "Success",
+                "statusCode": {"code": "SC000"},
+                "message": "Login successfully",
+                "login": True            
+            }), 200
+        else:
+            return jsonify({
+                "statusDesc": "Failure",
+                "statusCode": {"code": "F005"},
+                "message": 'User does not exist',
+                "login": False
+            }), 400
+
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+    
+    
 # new
 @app.route("/authAdapter",methods=['POST'])
 def authAdapter():
@@ -42,13 +101,15 @@ def authAdapter():
         fullname = data.get('full_name')
         email = data.get('email')
         pWord = data.get('p_word')
+        acc_type = data.get('Acc_type')
+        hno = data.get('Hno')
 
         if (fullname and email and pWord and fullname != "" and email != "" and pWord != "" and fullname != "NA" and email != "NA" and pWord != "NA"  ) :
             
             #check user exit or not
             connection = get_db_coneection()
             cursor = connection.cursor()
-            cursor.execute("SELECT COUNT(*) FROM user_data WHERE e_mail = %s;",(email,))
+            cursor.execute("SELECT COUNT(*) FROM user_data WHERE e_mail = %s or Hno = %s;",(email,hno))
             row = cursor.fetchone()
             connection.close()
             if row[0] > 0 :
@@ -61,12 +122,12 @@ def authAdapter():
                 })
             else:
                 #insert user data
-                business_id = genrate_business_id(email)
-                status = 1
+                # business_id = genrate_business_id(email)
+                # status = 1
                 connection = get_db_coneection()
                 cursor = connection.cursor()
-                cursor.execute("INSERT INTO user_data (full_name,e_mail,password,status,business_id) VALUES (%s,%s,%s,%s,%s);",
-                               (fullname,email,pWord,status,business_id))
+                cursor.execute("INSERT INTO user_data (Hno,full_name,e_mail,password,Acc_type) VALUES (%s,%s,%s,%s,%s);",
+                               (hno,fullname,email,pWord,acc_type))
                 connection.commit()
                 connection.close()
             return jsonify({
@@ -76,8 +137,9 @@ def authAdapter():
                 },
                 "message": "New user created successfully",
                 "params":{
-                    "business_id" : business_id,
-                    "status" : status
+                    # "business_id" : business_id,
+                    # "status" : status
+
                 }
                             
             }),200
@@ -95,82 +157,6 @@ def authAdapter():
     except Exception as e:
         return jsonify({"error": str(e)}),500
     
-
-
-@app.route('/bmiApi',methods=['POST'])
-def bmiApi():
-    try:
-        data = request.get_json()
-        gender = data.get('gender')
-        purpose = data.get('purpose')
-        expWieght = data.get('expectedWieght')
-        curWieght = data.get('currWieght')
-        height = data.get('height')
-        activity = data.get('activity')
-        age  = data.get('age')
-        business_id = data.get('business_id')
-
-        if(gender and purpose and expWieght and curWieght and height and activity and age and business_id 
-           and gender !="" and purpose != "" and expWieght != "" and curWieght != "" and height != "" and activity != "" and age != "" and business_id != ""
-           and gender !="NA" and purpose != "NA" and expWieght != "NA" and curWieght != "NA" and height != "NA" and activity != "NA" and age != "NA" and business_id != "NA"  ):
-                           
-            if (gender == "M" ):
-                BMR = (10 * float(curWieght)) + (6.25 * float(height)) - ( 5 * float(age)) + 5
-            elif(gender == "F"):
-                BMR = (10 * float(curWieght)) + (6.25 * float(height)) - ( 5 * float(age)) - 161
-            #claculate the caloriy 
-            curCalori = (BMR * float(activity))
-
-            if(purpose == "0"):
-                tag_per = float(curCalori *0.1)
-                tagCal = curCalori + tag_per
-            else:
-                tag_per = float(curCalori *0.7)
-                tagCal = curCalori + tag_per
-
-            #database
-            connection = get_db_coneection()
-            cursor = connection.cursor()
-            cursor.execute("INSERT INTO bmr_data (cur_cal,business_id,bmr,target_cal) VALUES (%s,%s,%s,%s);",
-                        (curWieght,business_id,BMR,tag_per))
-            connection.commit()
-            connection.close()
-
-            #Responses
-            return jsonify({
-                "statusDesc": "Success",
-                "statusCode": {
-                    "code": "SC000"
-            },
-            "message": "BMR successfully calculated",
-            "params":{
-                "business_id" : business_id
-            }
-                })
-
-        
-                
-
-        else:
-            return jsonify({
-	        "statusDesc": "Failure",
-            "statusCode": {
-        	"code": "F005"
-         	},
-	        "message": "Some mandatory fields need to be filled"
-                        
-        }),400
-
-        
-        
-     
-
-
-
-    except Exception as e:
-        return jsonify({"error":str(e)}),500
-
-
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5080,debug=True )

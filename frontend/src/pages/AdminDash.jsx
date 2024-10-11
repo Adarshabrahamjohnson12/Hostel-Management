@@ -1,9 +1,12 @@
-import React from 'react'
+import React, { useState } from 'react'
+// const [login,setLogIn] = useState(true);
 
-const AdminDash = () => {
+const AdminDash = ({login}) => {
   const date = new Date();
   const showTime = date.getHours()
     + ':' + date.getMinutes();
+
+
 
   const MenuDetails = {
     1: { id: 'Home' },
@@ -44,7 +47,10 @@ const AdminDash = () => {
         <div className='bg-[#C1D8C3] h-16 w-full flex flex-wrap gap-3 justify-between content-center px-4 rounded'>
           <p>{showTime}</p>
           <h2>{data.name}</h2>
+          <span className='flex gap-3'>
           <img src={data.image} className='rounded-full bg-orange-500 h-6' alt="" />
+          <a href="/">logout</a>
+          </span>
         </div>
 
         <div className='bg-[#C1D8C3] h-[80%] p-4 mt-10 rounded'>
