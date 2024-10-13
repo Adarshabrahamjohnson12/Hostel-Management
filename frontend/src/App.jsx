@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import AdminDash from './pages/AdminDash';
 import back2 from './assets/back2.png';
 import AdminDashboard from './components/AdminDashboard';
+import StudentDashboard from './components/StudentDashboard';
 
 const App = () => {
   const [username, setUser] = useState('');
@@ -10,6 +11,7 @@ const App = () => {
   const [login, setLogIn] = useState(false);//false
   const [message, setMessage] = useState('');
   const [dislogin, setDislogin] = useState(true);
+  const [admin, setAdmin] = useState(true);
 
   const handleSubmit = async (e) => {
     e.preventDefault(); // Prevent the form from submitting normally
@@ -31,7 +33,7 @@ const App = () => {
     <div className='w-full h-full'>
       {login ? (
         // <AdminDash login={login} />
-        <AdminDashboard />
+       admin? <StudentDashboard/> : <AdminDashboard />
       ) : (
         <div className='bg-slate-300 relative m-auto w-full h-screen '>
 
