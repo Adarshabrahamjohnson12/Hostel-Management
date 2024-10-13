@@ -55,7 +55,14 @@ const AdminDash = ({ login }) => {
         </div>
 
         <div className='bg-[#C1D8C3] h-[80%] p-4 mt-10 rounded'>
-          fhjhj
+
+           <ul className='flex justify-between px-20 pt-4 gap-2'>
+            <li className='bg-[#CD5C08] w-24 h-24 rounded'></li>
+            <li className='bg-[#CD5C08] w-24 h-24 rounded'></li>
+            <li className='bg-[#CD5C08] w-24 h-24 rounded'></li>
+            <li className='bg-[#CD5C08] w-24 h-24 rounded'></li>
+            <li className='bg-[#CD5C08] w-24 h-24 rounded'></li>
+           </ul>
         </div>
         uuu
       </div>
