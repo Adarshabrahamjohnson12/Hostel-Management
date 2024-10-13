@@ -1,13 +1,12 @@
 import axios from 'axios';
 import React, { useState } from 'react';
-import AdminDash from './pages/AdminDash';
-import back2 from './assets/back2.png';
-import AdminDashboard from './components/AdminDashboard';
+// import AdminDash from './pages/AdminDash';
+import back2 from '../assets/back2.png';
+// import AdminDashboard from './components/AdminDashboard';
 
-const App = () => {
+const HomePage = () => {
   const [username, setUser] = useState('');
   const [password, setPass] = useState('');
-  const [login, setLogIn] = useState(false);//false
   const [message, setMessage] = useState('');
   const [dislogin, setDislogin] = useState(true);
 
@@ -26,14 +25,8 @@ const App = () => {
       setMessage('An error occurred');
     }
   };
-
   return (
-    <div className='w-full h-full'>
-      {login ? (
-        // <AdminDash login={login} />
-        <AdminDashboard />
-      ) : (
-        <div className='bg-slate-300 relative m-auto w-full h-screen '>
+    <div className='bg-slate-300 relative m-auto w-full h-screen '>
 
           <section className={`${dislogin ? 'hidden' : ''} z-50 absolute w-[80vw] rounded m-28 py-20 bg-gray-200`}>
 
@@ -138,9 +131,7 @@ const App = () => {
 
 
         </div>
-      )}
-    </div>
-  );
-};
+  )
+}
 
-export default App;
+export default HomePage
