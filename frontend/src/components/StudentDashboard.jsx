@@ -15,7 +15,7 @@ const StudentDashboard = () => {
       
       {/* Main content */}
       <div className="flex-1 p-6 ml-64">
-        <Header />
+        <Header userType="Student"/>
         
         {/* Student info and room details */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">

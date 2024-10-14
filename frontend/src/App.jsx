@@ -33,16 +33,17 @@ const App = () => {
     <div className='w-full h-full'>
       {login ? (
         // <AdminDash login={login} />
-       admin? <StudentDashboard/> : <AdminDashboard />
+        admin ? <StudentDashboard /> : <AdminDashboard />
       ) : (
         <div className='bg-slate-300 relative m-auto w-full h-screen '>
 
-          <section className={`${dislogin ? 'hidden' : ''} z-50 absolute w-[80vw] rounded m-28 py-20 bg-gray-200`}>
-
-            <div className="container mx-auto text-center">
-              <button onClick={() => { setDislogin(true) }} className=' pb-8'>Home</button>
+          <section className={`${dislogin ? 'hidden transition-opacity' : ' transition-colors'} z-50 fixed w-[80vw] rounded mx-32 mt-12 bg-gray-200`}>
+            <img className='z-0 absolute opacity-60 w-full rounded'
+            src="https://scontent.fccj6-2.fna.fbcdn.net/v/t39.30808-6/310154025_414009510897391_686990474207141427_n.jpg?stp=dst-jpg_s960x960&_nc_cat=105&ccb=1-7&_nc_sid=cc71e4&_nc_ohc=Ac2KUTcGfWMQ7kNvgHrepBi&_nc_ht=scontent.fccj6-2.fna&_nc_gid=AbeTQNsb07CWpWaFNcFEVqE&oh=00_AYAZnKgQt2olqtXJe4biK4t6vU83HiA55R1jYPqZt4rcvQ&oe=6713102A" alt="" />
+            <div className="container relative z-10  py-10 mx-auto text-center bg-gray-200 w-[32%] mt-10 opacity-95 ">
+              <button onClick={() => { setDislogin(true) }} className='font-medium text-2xl pb-8'>Home</button>
               <h3 className="text-3xl font-bold mb-8">Login</h3>
-              <form onSubmit={handleSubmit} className='grid gap-4 mt-4 px-16 justify-center'>
+              <form onSubmit={handleSubmit} className='grid gap-4 mt-4 px-16 justify-center opacity-100'>
                 <input
                   type="text"
                   value={username}
@@ -57,6 +58,29 @@ const App = () => {
                   placeholder='Password'
                   className='p-2 border border-gray-300 rounded'
                 />
+
+                <span>
+                  <label htmlFor="admin">Admin</label>
+                  <input
+                    type='radio'
+                    name='SelAdmin'
+                    value="admin"
+                    onClick={() => setAdmin(false)}
+                    className='ml-4'
+                  />
+                </span>
+
+                <span>
+                  <label htmlFor="Student">Student</label>
+                  <input
+                    type='radio'
+                    name='SelAdmin'
+                    value="Student"
+                    onClick={() => setAdmin(true)}
+                    className='ml-4'
+                  />
+                </span>
+
                 <button type='submit' className='bg-blue-600 text-white py-2 px-4 rounded hover:bg-blue-700'>Login</button>
               </form>
               {message && <p className="mt-4 text-green-600">{message}</p>}

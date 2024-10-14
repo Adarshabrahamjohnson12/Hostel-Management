@@ -1,9 +1,10 @@
 import React from 'react';
 
-const Header = () => {
+const Header = ({userType}) => {
+  // const links = userRole === 'admin' 
   return (
     <header className="flex justify-between items-center p-4 bg-white shadow-md mb-6">
-      <h1 className="text-2xl font-bold text-gray-800">Admin Dashboard</h1>
+      <h1 className="text-2xl font-bold text-gray-800">{userType} Dashboard</h1>
       <div className="flex items-center space-x-4">
         <span className="text-gray-600">Hello, Admin</span>
         <img

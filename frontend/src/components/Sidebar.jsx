@@ -16,7 +16,7 @@ const Sidebar = ({ userRole }) => {
 
   return (
     <div className="w-64 fixed bg-gray-800 text-white h-screen p-5">
-      <h1 className="text-2xl font-bold mb-6">Hostel Management</h1>
+      <h1 className="text-2xl font-bold mb-12">Hostel Management</h1>
       <ul>
         {links.map((link) => (
           <li key={link.name} className="mb-4">
