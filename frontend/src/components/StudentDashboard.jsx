@@ -7,11 +7,12 @@ import ComplaintsTable from './ComplaintsTable';
 import ComplaintForm from './ComplaintForm';
 import PaymentHistory from './PaymentHistory';
 
-const StudentDashboard = () => {
+const StudentDashboard = ({username}) => {
+
   return (
     <div className="flex h-screen bg-gray-100">
       {/* Sidebar for navigation */}
-      <Sidebar userRole="student" />
+      <Sidebar userRole="student"  />
       
       {/* Main content */}
       <div className="flex-1 p-6 ml-64">

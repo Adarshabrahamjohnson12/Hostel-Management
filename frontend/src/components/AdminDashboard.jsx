@@ -6,7 +6,8 @@ import StudentsTable from './StudentsTable';
 import RoomsTable from './RoomsTable';
 import ComplaintsTable from './ComplaintsTable';
 
-const AdminDashboard = () => {
+const AdminDashboard = ({username}) => {
+  
   
   const MenuDetails = {
     1: { id: 'Home', },

@@ -20,9 +20,9 @@ const Sidebar = ({ userRole }) => {
       <ul>
         {links.map((link) => (
           <li key={link.name} className="mb-4">
-            {/* <Link to={link.path} className="text-lg hover:text-gray-300"> */}
+            <Link to={link.path} className="text-lg hover:text-gray-300">
               {link.name}
-            {/* </Link> */}
+            </Link>
           </li>
         ))}
       </ul>
