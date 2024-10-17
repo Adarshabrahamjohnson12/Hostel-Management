@@ -21,11 +21,11 @@ db_config = {
 def get_db_coneection():
     return mysql.connector.connect(**db_config)
 
-#for creating business id
+''''#for creating business id
 def genrate_business_id(email):
     email_prefix = email.split('@')[0]
     random_number = ''.join(random.choices(string.digits,k=5))
-    return f'{email_prefix}_{random_number}'
+    return f'{email_prefix}_{random_number}'''''
 
 @app.route("/root",methods=['GET'])
 def root():
@@ -56,6 +56,8 @@ def  list():
         # }),400
     except Exception as e:
         return jsonify({"error": str(e)}),500
+
+
 
 @app.route("/login", methods=['POST'])
 def login():
@@ -91,9 +93,55 @@ def login():
 
     except Exception as e:
         return jsonify({"error": str(e)}), 500
-    
+
+
+# for user details 
+@app.route("/userdetails", methods=['POST'])
+def userdetails():
+    try:
+        data = request.json
+        username = data.get('username')
+        
+        if not username:
+            return jsonify({
+                "statusDesc": "Failure",
+                "statusCode": {"code": "F001"},
+                "message": 'Username is required',
+                "login": False
+            }), 400
+        
+        db_connection = get_db_coneection()
+        cursor = db_connection.cursor()
+        
+        # Use parameterized query to prevent SQL injection
+        cursor.execute('SELECT full_name, Rno, Hno, e_mail FROM user_data WHERE e_mail = %s;', (username,))
+        row = cursor.fetchone()
+        db_connection.close()
+
+        if row:  # If a user was found
+            return jsonify({
+                "statusDesc": "Success",
+                "statusCode": {"code": "SC000"},
+                "message": "Login successful",
+                "full_name": row[0],
+                "Rno": row[1],
+                "Hno": row[2],
+                "e_mail": row[3],
+                "login": True            
+            }), 200
+        else:
+            return jsonify({
+                "statusDesc": "Failure",
+                "statusCode": {"code": "F005"},
+                "message": 'User does not exist',
+                "login": False
+            }), 400
+
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500 
     
 # new
+'''
 @app.route("/authAdapter",methods=['POST'])
 def authAdapter():
     try :
@@ -156,7 +204,7 @@ def authAdapter():
         }),400
     except Exception as e:
         return jsonify({"error": str(e)}),500
-    
+ '''   
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5080,debug=True )

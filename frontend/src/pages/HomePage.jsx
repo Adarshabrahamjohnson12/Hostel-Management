@@ -4,6 +4,8 @@ import React, { useState } from 'react';
 import back2 from '../assets/back2.png';
 import AdminDashboard from '../components/AdminDashboard';
 import StudentDashboard from '../components/StudentDashboard';
+import {useSnackbar} from 'notistack';
+
 
 const HomePage = () => {
   const [username, setUser] = useState('');
@@ -12,6 +14,7 @@ const HomePage = () => {
   const [message, setMessage] = useState('');
   const [dislogin, setDislogin] = useState(true);
   const [admin, setAdmin] = useState(true);
+  const { enqueueSnackbar} = useSnackbar();
 
   const handleSubmit = async (e) => {
     e.preventDefault(); // Prevent the form from submitting normally
@@ -23,9 +26,11 @@ const HomePage = () => {
       });
       setMessage(response.data.message);
       setLogIn(response.data.login);
+      enqueueSnackbar('Login successful' , { variant : 'success' });
     } catch (error) {
       console.error('Error logging in:', error);
       setMessage('An error occurred');
+      enqueueSnackbar('Try again' ,{variant : 'error'});
     }
   };
 
