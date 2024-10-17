@@ -1,6 +1,9 @@
 import React from 'react';
 
-const RoomDetails = () => {
+const RoomDetails = ({userData}) => {
+  const username = userData.email;
+
+  
   return (
     <div className="bg-white p-6 rounded-lg shadow-lg">
       <h2 className="text-lg font-semibold text-gray-600 mb-4">Room Details</h2>

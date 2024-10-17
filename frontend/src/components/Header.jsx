@@ -1,12 +1,14 @@
 import React from 'react';
 
-const Header = ({userType}) => {
+const Header = ({userType,userData}) => {
   // const links = userRole === 'admin' 
+
+  const firstname = userData.full_name;
   return (
     <header className="flex justify-between items-center p-4 bg-white shadow-md mb-6">
       <h1 className="text-2xl font-bold text-gray-800">{userType} Dashboard</h1>
       <div className="flex items-center space-x-4">
-        <span className="text-gray-600">Hello, Admin</span>
+        <span className="text-gray-600">Hello, {firstname}</span>
         <img
           src="https://via.placeholder.com/40"
           alt="Admin Avatar"

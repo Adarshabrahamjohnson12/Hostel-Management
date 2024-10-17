@@ -24,7 +24,7 @@ const AdminDashboard = ({username}) => {
       <Sidebar userRole="admin" />
       
       {/* Main content */}
-      <div className="flex-1  ml-64 p-6">
+      <div className="flex-1  lg:ml-64 p-6">
         <Header userType="Admin" />
         
         {/* Stats section */}

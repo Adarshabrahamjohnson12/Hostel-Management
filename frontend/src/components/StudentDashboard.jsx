@@ -7,6 +7,7 @@ import RoomDetails from './RoomDetails';
 import ComplaintsTable from './ComplaintsTable';
 import ComplaintForm from './ComplaintForm';
 import PaymentHistory from './PaymentHistory';
+import Footer from './Footer';
 
 const StudentDashboard = ({ username }) => {
   const [userData, setUserData] = useState({}); // Object to store user data
@@ -42,25 +43,18 @@ const StudentDashboard = ({ username }) => {
   }, [username]); // Re-run the effect when username changes
 
   return (
-    <div className="flex h-screen bg-gray-100">
+    <div className="lg:flex h-screen bg-gray-100">
       {/* Sidebar for navigation */}
       <Sidebar userRole="student" />
 
       {/* Main content */}
-      <div className="flex-1 p-6 ml-64">
-        <Header userType="Student" />
+      <div className="flex-1 p-6 lg:ml-64">
+        <Header userType="Student" userData={userData} />
 
         {/* Student info and room details */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
-          {true ? (
-
-            <StudentDetailsCard userData={userData} />
-
-          ) : (
-            <p>Loading student details...</p>
-
-          )}
-          <RoomDetails />
+          <StudentDetailsCard userData={userData} />
+          <RoomDetails userData={userData}/>
         </div>
 
         {/* Complaints section */}
@@ -70,9 +64,10 @@ const StudentDashboard = ({ username }) => {
         </div>
 
         {/* Payment history */}
-        <div className="mt-6">
+        <div className="my-6">
           <PaymentHistory />
         </div>
+        <Footer/>
       </div>
     </div>
   );
