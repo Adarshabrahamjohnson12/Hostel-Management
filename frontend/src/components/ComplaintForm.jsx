@@ -1,12 +1,16 @@
+import { useSnackbar } from 'notistack';
 import React, { useState } from 'react';
 
 const ComplaintForm = () => {
   const [complaint, setComplaint] = useState('');
+  const {enqueueSnackbar}= useSnackbar();
+
 
   const handleSubmit = (e) => {
     e.preventDefault();
     // Handle form submission logic here
     console.log('Complaint submitted:', complaint);
+    enqueueSnackbar('Complaint sent' , { variant : 'success' });
     setComplaint('');
   };
 

@@ -1,14 +1,14 @@
 import React from 'react';
 
-const StudentDetailsCard = () => {
+const StudentDetailsCard = ({userData}) => {
   return (
     <div className="bg-white p-6 rounded-lg shadow-lg">
       <h2 className="text-lg font-semibold text-gray-600 mb-4">Student Details</h2>
       <div>
-        <p><strong>Name:</strong> John Doe</p>
-        <p><strong>Roll Number:</strong> 123456</p>
-        <p><strong>Hostel ID:</strong> H2021</p>
-        <p><strong>Email:</strong> john.doe@example.com</p>
+        <p><strong>Name:</strong> {userData.full_name}</p>
+        <p><strong>Roll Number:</strong> R{userData.Rno}</p>
+        <p><strong>Hostel ID:</strong> H{userData.Hno}</p>
+        <p><strong>Email:</strong> {userData.email}</p>
       </div>
     </div>
   );
