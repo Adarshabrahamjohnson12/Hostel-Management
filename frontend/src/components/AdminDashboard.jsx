@@ -25,7 +25,7 @@ const AdminDashboard = ({username}) => {
       
       {/* Main content */}
       <div className="flex-1  lg:ml-64 p-6">
-        <Header userType="Admin" />
+        {/* <Header userType="Admin" /> */}
         
         {/* Stats section */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-6">

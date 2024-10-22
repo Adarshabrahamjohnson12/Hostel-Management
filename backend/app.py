@@ -42,12 +42,15 @@ def login():
         data = request.json
         username = data.get('username')
         password = data.get('password')
+        userType = data.get('userType')
+    
+        
         
         db_connection = get_db_coneection()
         cursor = db_connection.cursor()
         
         # Corrected SQL query to use proper parameterized input
-        cursor.execute('SELECT count(*) FROM user_data WHERE e_mail = %s and password = %s;', (username,password))
+        cursor.execute('SELECT count(*) FROM user_data WHERE e_mail = %s and password = %s and Acc_type = %s;', (username,password,userType))
         row = cursor.fetchone()
         db_connection.close()
         
@@ -64,7 +67,7 @@ def login():
                 "statusDesc": "Failure",
                 "statusCode": {"code": "F005"},
                 "message": 'User does not exist',
-                "login": False
+                "login": False,
             }), 400
 
     except Exception as e:
@@ -116,8 +119,8 @@ def userdetails():
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
-#to get room details  
-@app.route("/roomdetails",methods=['POST'])   
+
+@app.route("/roomdetails", methods=['POST'])   
 def roomdetails():
     try:
         data = request.json
@@ -135,23 +138,27 @@ def roomdetails():
         cursor = db_connection.cursor()
         
         # Use parameterized query to prevent SQL injection
-        cursor.execute('SELECT Rono, full_name , Floor FROM `room_data` as x,`user_data` as y where x.Hno = y.Hno AND Rono = (SELECT Rono FROM `room_data` WHERE Hno = %s);', (Hno,))
-        row = cursor.fetchone()
+        cursor.execute('''
+            SELECT Rono, full_name , Floor FROM 
+            room_data as x,user_data as y 
+            where x.Hno = y.Hno AND x.Hno  != %s AND Rono = 
+            (SELECT Rono FROM room_data WHERE Hno = %s);
+        ''', (Hno,Hno))
+        
+        rows = cursor.fetchall()  # Fetch all rows matching the query
         db_connection.close()
         
-        rono = row[0][0]
-        floor = row[0][2]
-        roomate = []
-        for i in row:
-            roomate.append(row[i][1])
+        if rows:  # If any users were found
+            rono = rows[0][0]
+            floor = rows[0][2]
+            roommates = [row[1] for row in rows]  # Extract full names from rows
             
-        if row:  # If a user was found
             return jsonify({
                 "statusDesc": "Success",
                 "statusCode": {"code": "SC000"},
-                "message": "Got details sucess",
+                "message": "Got details successfully",
                 "Rono": rono,
-                "roomate" : roomate,
+                "roomate": roommates,
                 "floor": floor
             }), 200
         else:
@@ -160,12 +167,9 @@ def roomdetails():
                 "statusCode": {"code": "F005"},
                 "message": 'User does not exist'
             }), 400
-        
-        
 
     except Exception as e:
         return jsonify({"error": str(e)}), 500
     
- 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5080,debug=True )
