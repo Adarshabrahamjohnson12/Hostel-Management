@@ -1,7 +1,9 @@
 import React from 'react';
 
 const RoomDetails = ({userData}) => {
-  const username = userData.email;
+  const username = userData.Hno;
+
+  
 
   
   return (
