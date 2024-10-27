@@ -93,7 +93,7 @@ def userdetails():
         cursor = db_connection.cursor()
         
         # Use parameterized query to prevent SQL injection
-        cursor.execute('SELECT full_name, Rno, Hno, e_mail FROM user_data WHERE e_mail = %s;', (username,))
+        cursor.execute('SELECT fname, lname, Rno, Hno, e_mail FROM user_data WHERE e_mail = %s;', (username,))
         row = cursor.fetchone()
         db_connection.close()
 
@@ -102,10 +102,11 @@ def userdetails():
                 "statusDesc": "Success",
                 "statusCode": {"code": "SC000"},
                 "message": "Login successful",
-                "full_name": row[0],
-                "Rno": row[1],
-                "Hno": row[2],
-                "e_mail": row[3],
+                "fname": row[0],
+                "lname": row[1],
+                "Rno": row[2],
+                "Hno": row[3],
+                "e_mail": row[4],
                 "login": True            
             }), 200
         else:
@@ -139,7 +140,7 @@ def roomdetails():
         
         # Use parameterized query to prevent SQL injection
         cursor.execute('''
-            SELECT Rono, full_name , Floor FROM 
+            SELECT Rono, fname , Floor FROM 
             room_data as x,user_data as y 
             where x.Hno = y.Hno AND x.Hno  != %s AND Rono = 
             (SELECT Rono FROM room_data WHERE Hno = %s);

@@ -33,7 +33,8 @@ const StudentDashboard = () => {
         if (response.data.login) {
           // Store the fetched data in userData
           setUserData({
-            full_name: response.data.full_name,
+            fname: response.data.fname,
+            lname: response.data.lname,
             Rno: response.data.Rno,
             Hno: response.data.Hno,
             email: response.data.e_mail,
@@ -76,7 +77,7 @@ const StudentDashboard = () => {
         {/* Complaints section */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           <MessDash />
-          {/* <ComplaintsTable /> */}
+          <ComplaintsTable />
           <ComplaintForm />
         </div>
 
