@@ -4,11 +4,12 @@ import Header from './Header';
 import axios from 'axios';
 import StudentDetailsCard from './StudentDetailsCard';
 import RoomDetails from './RoomDetails';
-import ComplaintsTable from './ComplaintsTable';
+import ComplaintsTableS from './ComplaintsTableS';
 import ComplaintForm from './ComplaintForm';
 import PaymentHistory from './PaymentHistory';
 import Footer from './Footer';
 import { useParams } from 'react-router-dom';
+import MessDash from './MessDash';
 
 const StudentDashboard = () => {
 
@@ -32,7 +33,8 @@ const StudentDashboard = () => {
         if (response.data.login) {
           // Store the fetched data in userData
           setUserData({
-            full_name: response.data.full_name,
+            fname: response.data.fname,
+            lname: response.data.lname,
             Rno: response.data.Rno,
             Hno: response.data.Hno,
             email: response.data.e_mail,
@@ -51,9 +53,9 @@ const StudentDashboard = () => {
 
   if (loading) {
     return (
-    <div className='flex justify-center items-center h-screen'>
-      <span className='bg-orange-300 w-60 h-60 rounded-full flex justify-center items-center text-3xl'>Loading.. </span>
-    </div>
+      <div className='flex justify-center items-center h-screen'>
+        <span className='animate-ping bg-slate-600 w-60 h-60 rounded-full flex justify-center items-center text-3xl'>Loading.. </span>
+      </div>
     ) // Show loading state
   }
 
@@ -74,8 +76,9 @@ const StudentDashboard = () => {
 
         {/* Complaints section */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          <ComplaintsTable />
-          <ComplaintForm />
+          <MessDash />
+          <ComplaintsTableS userid={userData} />
+          <ComplaintForm Hno={userData.Hno} />
         </div>
 
         {/* Payment history */}

@@ -3,7 +3,7 @@ import React from 'react';
 const Header = ({userType,userData}) => {
   // const links = userRole === 'admin' 
 
-  const firstname = userData.full_name;
+  const firstname = userData.fname;
   return (
     <header className="flex justify-between items-center p-4 bg-white shadow-md mb-6">
       <h1 className="text-2xl font-bold text-gray-800">{userType} Dashboard</h1>

@@ -1,18 +1,36 @@
 import { useSnackbar } from 'notistack';
 import React, { useState } from 'react';
 
-const ComplaintForm = () => {
+const ComplaintForm = ({Hno}) => {
   const [complaint, setComplaint] = useState('');
   const {enqueueSnackbar}= useSnackbar();
+  const handleSubmit = async (e) => {
+    e.preventDefault(); // Prevent the form from submitting normally
 
+    try {
+      const response = await axios.post('http://localhost:5080/newcomplaint', {
+        Hno,
+        content,
+      });
+      setMessage(response.data.message);
+      setLogIn(response.data.login);
+      enqueueSnackbar('Login successful', { variant: 'success' });
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    // Handle form submission logic here
-    console.log('Complaint submitted:', complaint);
-    enqueueSnackbar('Complaint sent' , { variant : 'success' });
-    setComplaint('');
+      // Navigate based on userType
+      if (response.data.login) {
+        if (userType === "student") {
+          navigate(`/student/${username}`); // Navigate to StudentDashboard
+        } else {
+          navigate('/admin'); // Navigate to AdminDashboard
+        }
+      }
+    } catch (error) {
+      console.error('Error logging in:', error);
+      setMessage('An error occurred');
+      enqueueSnackbar('Try again ', { variant: 'error' });
+    }
   };
+
 
   return (
     <div className="bg-white p-6 rounded-lg shadow-lg">
