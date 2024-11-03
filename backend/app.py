@@ -20,10 +20,10 @@ db_config = {
     'host':'localhost',
     'user':'root',
     'password' :'',
-    'database':'hostal_management'
+    'database':'hostel_management'
 }
 
-def get_db_coneection():
+def get_db_connection():
     return mysql.connector.connect(**db_config)
 
 '''
@@ -46,7 +46,7 @@ def login():
     
         
         
-        db_connection = get_db_coneection()
+        db_connection = get_db_connection()
         cursor = db_connection.cursor()
         
         # Corrected SQL query to use proper parameterized input
@@ -89,7 +89,7 @@ def userdetails():
                 "login": False
             }), 400
         
-        db_connection = get_db_coneection()
+        db_connection = get_db_connection()
         cursor = db_connection.cursor()
         
         # Use parameterized query to prevent SQL injection
@@ -135,7 +135,7 @@ def roomdetails():
                 "login": False
             }), 400
         
-        db_connection = get_db_coneection()
+        db_connection = get_db_connection()
         cursor = db_connection.cursor()
         
         # Use parameterized query to prevent SQL injection
@@ -171,6 +171,96 @@ def roomdetails():
 
     except Exception as e:
         return jsonify({"error": str(e)}), 500
+
+
+# Add student user 
+@app.route("/addstudent", methods=["POST"])
+def add_student():
+    try:
+        data = request.json
+        sName = data.get('studentName')
+        sEmail = data.get('studentEmail')
+        rno = data.get('rno')
+        Hno = rno
+        passwd = sEmail# random.randint(10, 200)
+
+        db_connection = get_db_connection()
+        cursor = db_connection.cursor()
+
+        # Check if user already exists
+        cursor.execute('SELECT COUNT(*) FROM user_data WHERE e_mail = %s;', (sEmail,))
+        check = cursor.fetchone()[0]  # Fetch the count directly
+        db_connection.close()
+
+        if check > 0:
+            return jsonify({
+                "statusDesc": "Failure",
+                "statusCode": {"code": "F005"},
+                "message": 'User already exists',
+                "login": False,
+            }), 400
+        else:
+            db_connection = get_db_connection()
+            cursor = db_connection.cursor()
+
+            # Insert new user into the database
+            cursor.execute('''
+                INSERT INTO user_data (Hno, Rno, fname, e_mail, password) VALUES (%s, %s, %s, %s, %s);
+            ''', (Hno, rno, sName, sEmail, passwd))
+            
+            db_connection.commit()  # Commit the transaction
+            db_connection.close()
+
+            return jsonify({
+                "statusDesc": "Success",
+                "statusCode": {"code": "SC000"},
+                "message": "User added successfully",
+                "login": True            
+            }), 201  # Use 201 for successful creation
+
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+
+# To view the complaints
+@app.route("/complaints",methods=['POST'])
+def complaints():
+    try:
+        # data = request.json
+        db_connection = get_db_connection()
+        cursor = db_connection.cursor()
+        cursor.execute(''' select fname , lname as name, content ,status 
+                       FROM complaint_data as c , user_data as u 
+                       WHERE c.Hno = u.Hno; ''')
+        rows = cursor.fetchall()  # Fetch all rows matching the query
+        db_connection.close()
+        return jsonify({"users":rows})        
     
+   
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+    
+    
+@app.route("/newcomplaint",methods=['POST'])
+def newcomplaint():
+    try:
+        data = request.json
+        Hno = data.get('Hno')
+        content = data.get('content')
+        
+        
+        db_connection = get_db_connection()
+        cursor = db_connection.cursor()
+        cursor.execute(''' insert into complaint_data values(%s,%s,0); ''',(Hno,content))
+        rows = cursor.fetchone()  # Fetch all rows matching the query
+        db_connection.close()
+        return jsonify({"message":"succes"})  
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+    
+    
+
+    
+# Starting 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5080,debug=True )

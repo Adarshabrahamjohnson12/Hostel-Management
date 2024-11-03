@@ -5,10 +5,11 @@ const Sidebar = ({ userRole }) => {
   const links = userRole === 'admin' ? [
     { name: 'Dashboard', path: '/admin' },
     { name: 'Manage Rooms', path: '/admin/rooms' },
-    { name: 'Manage Students', path: '/admin/students' },
+    { name: 'Add Students', path: '/admin/students' },
     { name: 'Reports', path: '/admin/reports' },
+    // { name: 'Add Student', path: '/admin/Addstudents'}
   ] : [
-    { name: 'Dashboard', path: '/student' },
+    { name: 'Dashboard', path: '/student/:id' },
     { name: 'My Room', path: '/student/room' },
     { name: 'Profile', path: '/student/profile' },
     { name: 'Complaints', path: '/student/complaints' },

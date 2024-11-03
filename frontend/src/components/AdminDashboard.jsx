@@ -4,7 +4,7 @@ import Header from './Header';
 import StatsCard from './StatsCard';
 import StudentsTable from './StudentsTable';
 import RoomsTable from './RoomsTable';
-import ComplaintsTable from './ComplaintsTable';
+import ComplaintsTableA from './ComplaintsTableA';
 import { useParams } from 'react-router-dom';
 
 const AdminDashboard = () => {
@@ -79,7 +79,7 @@ const AdminDashboard = () => {
           <RoomsTable />
         </div>
         <div className="mt-6">
-          <ComplaintsTable />
+          <ComplaintsTableA />
         </div>
       </div>
     </div>

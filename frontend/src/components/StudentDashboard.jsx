@@ -4,7 +4,7 @@ import Header from './Header';
 import axios from 'axios';
 import StudentDetailsCard from './StudentDetailsCard';
 import RoomDetails from './RoomDetails';
-import ComplaintsTable from './ComplaintsTable';
+import ComplaintsTableS from './ComplaintsTableS';
 import ComplaintForm from './ComplaintForm';
 import PaymentHistory from './PaymentHistory';
 import Footer from './Footer';
@@ -77,8 +77,8 @@ const StudentDashboard = () => {
         {/* Complaints section */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           <MessDash />
-          <ComplaintsTable />
-          <ComplaintForm />
+          <ComplaintsTableS userid={userData} />
+          <ComplaintForm Hno={userData.Hno} />
         </div>
 
         {/* Payment history */}
