@@ -26,6 +26,16 @@ db_config = {
 def get_db_connection():
     return mysql.connector.connect(**db_config)
 
+def dfetchone(cont):
+    db_connection = get_db_connection()
+    cur = db_connection.cursor()
+    cur.execute(cont)
+    rows = cur.fetchall()
+    db_connection.commit()
+    cur.close()
+    db_connection.close()
+    return rows
+
 '''
 @app.route("/root",methods=['GET'])
 def root():
@@ -75,8 +85,8 @@ def login():
 
 
 # for user details 
-@app.route("/userdetails", methods=['POST'])
-def userdetails():
+@app.route("/userdetail", methods=['POST'])
+def userdetail():
     try:
         data = request.json
         username = data.get('username')
@@ -114,6 +124,39 @@ def userdetails():
                 "statusDesc": "Failure",
                 "statusCode": {"code": "F005"},
                 "message": 'User does not exist',
+                "login": False
+            }), 400
+
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+
+# user details of all users
+# for user details 
+@app.route("/userdetails", methods=['GET'])
+def userdetails():
+    try: 
+        db_connection = get_db_connection()
+        cursor = db_connection.cursor()
+        
+        # Use parameterized query to prevent SQL injection
+        cursor.execute('''SELECT fname, lname, Rno, Hno, e_mail FROM user_data WHERE Acc_type = "student" ;''')
+        rows = cursor.fetchall()
+        db_connection.close()
+
+        if rows:  # If a user was found
+            return jsonify({
+                "statusDesc": "Success",
+                "statusCode": {"code": "SC000"},
+                "message": "data got successful",
+                "data": rows,
+                "login": True,            
+            }), 200
+        else:
+            return jsonify({
+                "statusDesc": "Failure",
+                "statusCode": {"code": "F005"},
+                "message": "unable to connect",
                 "login": False
             }), 400
 
@@ -240,24 +283,40 @@ def complaints():
     except Exception as e:
         return jsonify({"error": str(e)}), 500
     
-    
-@app.route("/newcomplaint",methods=['POST'])
+@app.route("/newcomplaint", methods=['POST'])
 def newcomplaint():
     try:
         data = request.json
         Hno = data.get('Hno')
-        content = data.get('content')
-        
+        content = data.get('complaint')
+        if not Hno or not content:
+            return jsonify({"error": "Hno and complaint content are required."}), 400
         
         db_connection = get_db_connection()
         cursor = db_connection.cursor()
-        cursor.execute(''' insert into complaint_data values(%s,%s,0); ''',(Hno,content))
-        rows = cursor.fetchone()  # Fetch all rows matching the query
+        cursor.execute('INSERT INTO complaint_data (Hno, content, status) VALUES (%s, %s, %s)', (Hno, content, 0))
+        db_connection.commit()
+        cursor.close()
         db_connection.close()
-        return jsonify({"message":"succes"})  
+
+        return jsonify({"message": "success"}), 201  # 201 Created status
     except Exception as e:
         return jsonify({"error": str(e)}), 500
     
+@app.route("/payment",methods=['POST'])   
+def payment():
+    try:
+        db_connection = get_db_connection()
+        cursor = db_connection.cursor()
+        cursor.execute(''' select Hno,date,Amount,status from payment_data;" ''')
+        rows = cursor.fetchall()  # Fetch all rows matching the query
+        db_connection.close()
+        return jsonify({"data":rows}),200
+        
+        
+        pass
+    except Exception as e:
+        return jsonify({"error":str(e)}), 500
     
 
     

@@ -23,7 +23,7 @@ const StudentDashboard = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.post('http://localhost:5080/userdetails', {
+        const response = await axios.post('http://localhost:5080/userdetail', {
           username, // Send username as the payload
         });
 
@@ -83,7 +83,7 @@ const StudentDashboard = () => {
 
         {/* Payment history */}
         <div className="my-6">
-          <PaymentHistory />
+          <PaymentHistory Hno={userData.Hno} />
         </div>
         <Footer />
       </div>

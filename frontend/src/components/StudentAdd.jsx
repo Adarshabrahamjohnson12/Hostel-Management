@@ -54,10 +54,10 @@ const StudentAdd = () => {
     };
 
     return (
-        <div className="grid justify-center h-screen p-8">
+        <div className="grid justify-center h-screen p-8 bg-gray-800 text-white">
             <a href="/admin" className="text-bold">HOME</a>
             <h1 className="text-3xl font-black ">New Student Register</h1>
-            <form onSubmit={handleSubmit} className="">
+            <form onSubmit={handleSubmit} className="bg-slate-200 text-black p-16">
                 <div>
                     <label className="block">Student Name:</label>
                     <input
@@ -69,7 +69,7 @@ const StudentAdd = () => {
                     />
                 </div>
                 <div>
-                    <label className="block">Rno:</label>
+                    <label className="block mt-2">Rno:</label>
                     <input
                     type="text"
                     name="rno"
@@ -79,7 +79,7 @@ const StudentAdd = () => {
                     />
                 </div>
                 <div>
-                    <label className="block">Student Email:</label>
+                    <label className="block mt-2">Student Email:</label>
                     <input
                         type="email"
                         name="studentEmail"
@@ -92,7 +92,7 @@ const StudentAdd = () => {
                 {successMessage && <p className="text-green-500">{successMessage}</p>}
                 <button
                     type="submit"
-                    className="bg-blue-500 text-white p-2"
+                    className="bg-blue-500 text-white mt-8 p-2"
                     disabled={loading}
                 >
                     {loading ? "Submitting..." : "Submit"}
