@@ -1,17 +1,22 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 
 const Sidebar = ({ userRole }) => {
+
+  const params = useParams();
+  const username = params.id;
+
+
   const links = userRole === 'admin' ? [
     { name: 'Dashboard', path: '/admin' },
-    { name: 'Manage Rooms', path: '/admin/rooms' },
+    // { name: 'Manage Rooms', path: '/admin/rooms' },
     { name: 'Add Students', path: '/admin/students' },
-    { name: 'Reports', path: '/admin/reports' },
-    // { name: 'Add Student', path: '/admin/Addstudents'}
+    // { name: 'Reports', path: '/admin/reports' },
+ 
   ] : [
-    { name: 'Dashboard', path: '/student/:id' },
-    { name: 'My Room', path: '/student/room' },
-    { name: 'Profile', path: '/student/profile' },
+    { name: 'Dashboard', path: `/student/${username}` },
+    // { name: 'My Room', path: '/student/room' },
+    { name: 'Profile', path: `/student/${username}/profile` },
     { name: 'Complaints', path: '/student/complaints' },
   ];
 

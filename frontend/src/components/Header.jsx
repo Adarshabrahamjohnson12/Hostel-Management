@@ -10,7 +10,7 @@ const Header = ({userType,userData}) => {
       <div className="flex items-center space-x-4">
         <span className="text-gray-600">Hello, {firstname}</span>
         <img
-          src="https://via.placeholder.com/40"
+          src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRGxu1bpsH8F1dpTwMDSlGqJKIs_gabi3T5MQqjLaq-oUevVu7aq9cnd-7o_oj--2zXeAI&usqp=CAU"
           alt="Admin Avatar"
           className="w-10 h-10 rounded-full border border-gray-200"
         />

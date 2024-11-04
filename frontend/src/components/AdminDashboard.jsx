@@ -19,7 +19,7 @@ const AdminDashboard = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.post('http://localhost:5080/userdetails', {
+        const response = await axios.post('http://localhost:5080/userdetail', {
           username, // Send username as the payload
         });
 

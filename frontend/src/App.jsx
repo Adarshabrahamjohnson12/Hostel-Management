@@ -6,6 +6,8 @@ import { SnackbarProvider } from 'notistack'
 import StudentDashboard from './components/StudentDashboard'
 import NoPage from './pages/NoPage'
 import StudentAdd from './components/StudentAdd'
+import ManageRooms from './components/ManageRooms'
+import Profile from './Profile'
 const App = () => {
   return (
     <BrowserRouter>
@@ -15,6 +17,8 @@ const App = () => {
           <Route path='/admin' element={<AdminDashboard />} />
           <Route path='/student/:id' element={<StudentDashboard />} />
           <Route path="*" element={<NoPage/>} />
+          <Route path='/student/:id/profile' element={<Profile/>}/>
+          {/* <Route path="/admin/rooms" element={<ManageRooms/>}/> */}
           <Route path='/admin/students' element={<StudentAdd/>}/>
         </Routes>
       </SnackbarProvider>
