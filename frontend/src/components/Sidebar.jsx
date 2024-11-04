@@ -16,7 +16,7 @@ const Sidebar = ({ userRole }) => {
   ] : [
     { name: 'Dashboard', path: `/student/${username}` },
     // { name: 'My Room', path: '/student/room' },
-    { name: 'Profile', path: '/student/profile' },
+    { name: 'Profile', path: `/student/${username}/profile` },
     { name: 'Complaints', path: '/student/complaints' },
   ];
 

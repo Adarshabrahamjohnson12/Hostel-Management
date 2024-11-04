@@ -38,6 +38,7 @@ const StudentDashboard = () => {
             Rno: response.data.Rno,
             Hno: response.data.Hno,
             email: response.data.e_mail,
+            image: response.data.image,
           });
         }
       } catch (error) {

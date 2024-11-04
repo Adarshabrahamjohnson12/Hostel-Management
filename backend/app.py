@@ -103,7 +103,7 @@ def userdetail():
         cursor = db_connection.cursor()
         
         # Use parameterized query to prevent SQL injection
-        cursor.execute('SELECT fname, lname, Rno, Hno, e_mail FROM user_data WHERE e_mail = %s;', (username,))
+        cursor.execute('SELECT fname, lname, Rno, Hno, e_mail ,image FROM user_data WHERE e_mail = %s;', (username,))
         row = cursor.fetchone()
         db_connection.close()
 
@@ -117,6 +117,7 @@ def userdetail():
                 "Rno": row[2],
                 "Hno": row[3],
                 "e_mail": row[4],
+                "image":row[5],
                 "login": True            
             }), 200
         else:
